@@ -61,5 +61,5 @@ poetry install
 ### Run Tests
 
 ```
-poetry run pytest
+poetry run pytest -v
 ```

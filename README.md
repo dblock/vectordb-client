@@ -26,9 +26,15 @@ for idx in db.indices:
     print(f'idx={idx}')
 ```
 
+You can run a working sample as follows.
+
+```
+API_TOKEN=... ENDPOINT=https://controller.us-west4-gcp-free.pinecone.io poetry run samples/pinecone/hello.py
+```
+
 #### OpenSearch
 
-
+TODO
 
 ### Developing
 
