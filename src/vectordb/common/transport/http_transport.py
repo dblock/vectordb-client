@@ -27,7 +27,7 @@ class HttpTransport(Transport):
         self._user_agent = user_agent
 
     def connect(self, credentials: Credentials) -> None:
-        self._client = Client()
+        self._client = Client(verify=False)
         self._credentials = credentials
         self._headers = None
 
@@ -37,7 +37,6 @@ class HttpTransport(Transport):
             headers = self._credentials.headers.copy()
             headers['User-agent'] = self.user_agent
             headers['Accept'] = 'application/json; charset=utf-8'
-            headers['Content-type'] = 'content-type: application/json'
             self._headers = headers
         return self._headers
 
@@ -47,8 +46,12 @@ class HttpTransport(Transport):
     def put(self, namespace = None, path = '/', params = {}, data = {}) -> Any:
         return self._client.put(self._resolve(namespace=namespace, path=path), params=params, headers=self.headers, json=data)
 
-    def post(self, namespace = None, path = '/', params = {}, data = {}) -> Any:
-        return self._client.post(self._resolve(namespace=namespace, path=path), params=params, headers=self.headers, json=data)
+    def post(self, namespace = None, path = '/', params = {}, data = None) -> Any:
+        headers_with_content_type = self.headers | { 'content-type' : 'application/json; charset=utf-8' }
+        if isinstance(data, str):
+            return self._client.post(self._resolve(namespace=namespace, path=path), params=params, headers=headers_with_content_type, data=data)
+        else:
+            return self._client.post(self._resolve(namespace=namespace, path=path), params=params, headers=headers_with_content_type, json=data)
 
     def delete(self, namespace = None, path = '/', params = {}) -> Any:
         return self._client.delete(self._resolve(namespace=namespace, path=path), params=params, headers=self.headers)

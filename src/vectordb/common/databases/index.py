@@ -10,9 +10,10 @@ class Index(ABC):
     def database(self) -> Any:
         return self._database
 
-    def __init__(self, database: Any, name: str) -> None:
+    def __init__(self, database: Any, name: str, data=None) -> None:
         self._name = name
         self._database = database
+        self._data = data
 
     @abstractmethod
     def delete(self, options = None) -> None:

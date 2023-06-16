@@ -20,4 +20,7 @@ class PineconeDatabase(Database):
     def create_index(self, name: str, options={}) -> Index:
         data = self._connection.post(namespace ='controller', path = '/databases', data={ 'name': name } | options)
         data.raise_for_status() # todo: generalize error
-        return PineconeIndex(name=name, database=self)
+        index = PineconeIndex(name=name, database=self)
+        if self._indices:
+            self._indices[name] = index
+        return index
