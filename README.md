@@ -1,12 +1,14 @@
 - [VectorDB Client](#vectordb-client)
   - [Using](#using)
+    - [Pinecone](#pinecone)
+    - [OpenSearch](#opensearch)
   - [Developing](#developing)
   - [License](#license)
   - [Copyright](#copyright)
 
 ## VectorDB Client
 
-A python library for multiple vector databases.
+Currently super-experimental-WIP. An attempt at a Python library that supports multiple vector databases with the same interface.
 
 ### Using
 
