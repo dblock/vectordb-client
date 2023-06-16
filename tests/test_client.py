@@ -1,7 +1,7 @@
 import unittest
 from vectordb.client import Client
 
-class ClientTest(unittest.TestCase):
+class TestClient(unittest.TestCase):
   def setUp(self):
     self.client = Client()
 

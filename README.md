@@ -10,7 +10,25 @@ A python library for multiple vector databases.
 
 ### Using
 
-TODO
+#### Pinecone
+
+```python
+db = PineconeDatabase(connection = http)
+auth = ApiToken(token=...)
+db.connect(auth)
+
+if not 'my-index' in db.indices:
+    index = db.create_index('my-index', { 'dimension': 1024 })
+    print(f'\nIndex: {index}')
+
+print(f'\nIndices: {len(db.indices)}')
+for idx in db.indices:
+    print(f'idx={idx}')
+```
+
+#### OpenSearch
+
+
 
 ### Developing
 
