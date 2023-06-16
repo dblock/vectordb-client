@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "vectordb-client-py"
+version = "0.1.0"
+description = "A python library for multiple vector databases."
+authors = ["Daniel Doubrovkine <dblock@dblock.org>"]
+license = "Apache 2.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+pytest = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
