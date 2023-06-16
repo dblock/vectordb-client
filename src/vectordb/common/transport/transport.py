@@ -8,5 +8,18 @@ class Transport(ABC):
         pass
 
     @abstractmethod
-    def get(self, path = '/', options = {}, data = None) -> Any:
+    def get(self, namespace = None, path = '/', params = {}) -> Any:
         pass
+
+    @abstractmethod
+    def put(self, namespace = None, path = '/', params = {}, data = {}) -> Any:
+        pass
+
+    @abstractmethod
+    def post(self, namespace = None, path = '/', params = {}, data = {}) -> Any:
+        pass
+
+    @abstractmethod
+    def delete(self, namespace = None, path = '/', params = {}) -> Any:
+        pass
+    

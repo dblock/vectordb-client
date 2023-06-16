@@ -12,24 +12,12 @@ A python library for multiple vector databases.
 
 #### Pinecone
 
-```python
-db = PineconeDatabase(connection = http)
-auth = ApiToken(token=...)
-db.connect(auth)
-
-if not 'my-index' in db.indices:
-    index = db.create_index('my-index', { 'dimension': 1024 })
-    print(f'\nIndex: {index}')
-
-print(f'\nIndices: {len(db.indices)}')
-for idx in db.indices:
-    print(f'idx={idx}')
-```
+See [pinecone/hello.py](samples/pinecone/hello.py).
 
 You can run a working sample as follows.
 
 ```
-API_TOKEN=... ENDPOINT=https://controller.us-west4-gcp-free.pinecone.io poetry run samples/pinecone/hello.py
+API_TOKEN=... PROJECT_ID=... ENDPOINT=https://us-west4-gcp-free.pinecone.io poetry run samples/pinecone/hello.py
 ```
 
 #### OpenSearch

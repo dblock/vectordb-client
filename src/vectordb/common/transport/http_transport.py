@@ -2,7 +2,7 @@ from typing import Any, Dict
 from httpx import Client, HTTPTransport
 from vectordb.common.transport.transport import Transport
 from vectordb.common.auth.credentials import Credentials
-from urllib.parse import urljoin
+from urllib.parse import urljoin, urlparse
 
 class HttpTransport(Transport):
     def __enter__(self) -> 'HttpTransport':
@@ -41,14 +41,22 @@ class HttpTransport(Transport):
             self._headers = headers
         return self._headers
 
-    def get(self, path = '/', params = {}) -> Any:
-        return self._client.get(urljoin(self._endpoint, path), params=params, headers=self.headers)
+    def get(self, namespace = None, path = '/', params = {}) -> Any:
+        return self._client.get(self._resolve(namespace=namespace, path=path), params=params, headers=self.headers)
 
-    def put(self, path = '/', params = {}, data = {}) -> Any:
-        return self._client.put(urljoin(self._endpoint, path), params=params, headers=self.headers, json=data)
+    def put(self, namespace = None, path = '/', params = {}, data = {}) -> Any:
+        return self._client.put(self._resolve(namespace=namespace, path=path), params=params, headers=self.headers, json=data)
 
-    def post(self, path = '/', params = {}, data = {}) -> Any:
-        return self._client.post(urljoin(self._endpoint, path), params=params, headers=self.headers, json=data)
+    def post(self, namespace = None, path = '/', params = {}, data = {}) -> Any:
+        return self._client.post(self._resolve(namespace=namespace, path=path), params=params, headers=self.headers, json=data)
 
-    def delete(self, path = '/', params = {}) -> Any:
-        return self._client.delete(urljoin(self._endpoint, path), params=params, headers=self.headers)
+    def delete(self, namespace = None, path = '/', params = {}) -> Any:
+        return self._client.delete(self._resolve(namespace=namespace, path=path), params=params, headers=self.headers)
+    
+    def _resolve(self, namespace = None, path = '/') -> str:
+        if not namespace:
+            return urljoin(self._endpoint, path)
+        else:
+            parsed = urlparse(self._endpoint)
+            parsed = parsed._replace(netloc=f'{namespace}.{parsed.netloc}', path=path)
+            return parsed.geturl()

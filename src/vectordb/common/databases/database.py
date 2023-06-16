@@ -6,6 +6,10 @@ from vectordb.common.databases.index import Index
 from vectordb.common.transport.transport import Transport
 
 class Database(ABC):
+    @property
+    def connection(self):
+        return self._connection
+    
     def __init__(self, connection: Transport) -> None:
         self._connection = connection
         self._indices = None
@@ -20,8 +24,4 @@ class Database(ABC):
 
     @abstractmethod
     def create_index(self, name: str, options={}) -> Index:
-        pass
-
-    @abstractmethod
-    def delete_index(self, name: str, options={}) -> Index:
         pass

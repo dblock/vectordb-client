@@ -1,9 +1,27 @@
-from abc import ABC
+from abc import ABC, abstractmethod
+from typing import Any
 
 class Index(ABC):
     @property
     def name(self) -> str:
         return self._name
-    
-    def __init__(self, name: str) -> None:
+
+    @property
+    def database(self) -> Any:
+        return self._database
+
+    def __init__(self, database: Any, name: str) -> None:
         self._name = name
+        self._database = database
+
+    @abstractmethod
+    def delete(self, options = None) -> None:
+        pass
+
+    @abstractmethod
+    def upsert(self, vectors: list, namespace: str = None) -> None:
+        pass
+
+    @abstractmethod
+    def query(self, vector: list, top_k: int, namespace: str = None) -> Any:
+        pass
