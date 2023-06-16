@@ -9,7 +9,6 @@ class PineconeDatabase(Database):
     def indices(self) -> Indices:
         if not self._indices:
             data = self._connection.get(namespace ='controller', path = '/databases')
-            data.raise_for_status() # todo: generalize error
             coll = list(map(lambda idx: PineconeIndex(name=idx, database=self), data.json()))
             self._indices = PineconeIndices(
                 database=self, 
@@ -19,7 +18,6 @@ class PineconeDatabase(Database):
 
     def create_index(self, name: str, options={}) -> Index:
         data = self._connection.post(namespace ='controller', path = '/databases', data={ 'name': name } | options)
-        data.raise_for_status() # todo: generalize error
         index = PineconeIndex(name=name, database=self)
         if self._indices:
             self._indices[name] = index

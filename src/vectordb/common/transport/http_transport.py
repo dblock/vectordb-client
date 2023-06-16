@@ -1,5 +1,5 @@
 from typing import Any, Dict
-from httpx import Client, HTTPTransport
+from httpx import Client, Response
 from vectordb.common.transport.transport import Transport
 from vectordb.common.auth.credentials import Credentials
 from urllib.parse import urljoin, urlparse
@@ -27,7 +27,7 @@ class HttpTransport(Transport):
         self._user_agent = user_agent
 
     def connect(self, credentials: Credentials) -> None:
-        self._client = Client(verify=False)
+        self._client = Client(verify=False, event_hooks={'response': [Response.raise_for_status]})
         self._credentials = credentials
         self._headers = None
 

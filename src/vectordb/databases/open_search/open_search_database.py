@@ -7,7 +7,6 @@ class OpenSearchDatabase(Database):
     def indices(self) -> OpenSearchIndices:
         if not self._indices:
             data = self._connection.get(path = '/_cat/indices')
-            data.raise_for_status() # todo: generalize error
             coll = list(map(lambda idx: OpenSearchIndex(name=idx['index'], data=idx, database=self), data.json()))
             self._indices = OpenSearchIndices(
                 database=self, 
@@ -28,7 +27,6 @@ class OpenSearchDatabase(Database):
                 }
             } 
         })
-        data.raise_for_status() # todo: generalize error
         index = OpenSearchIndex(name=name, database=self)
         if self._indices:
             self._indices[name] = index
